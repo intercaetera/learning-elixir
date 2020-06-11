@@ -9,13 +9,16 @@ defmodule MyList do
   def reduce([], acc, _), do: acc
   def reduce([head | tail], acc, func), do: reduce(tail, func.(head, acc), func)
 
+  # ListsAndRecursion-1
   def mapsum(list, func), do: list |> map(func) |> sum
 
+  # ListsAndRecursion-2
   def max(list), do: reduce(list, 0, fn
       (val, acc) when val > acc -> val
       (val, acc) when val < acc -> acc
     end)
 
+  # ListsAndRecursion-3
   def caesar(list, n) do
     cipher = fn
       (char) when char + n > ?z -> ?a + (char + n - 1 - ?z)

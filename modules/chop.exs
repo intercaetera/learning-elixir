@@ -1,3 +1,4 @@
+# ModulesAndFunctions-6
 defmodule Chop do
   def guess(actual, min..max) when is_integer(actual) do
     shot = div(max-min, 2) + min
