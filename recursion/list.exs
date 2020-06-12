@@ -1,8 +1,8 @@
 defmodule MyList do
   def map([], _func), do: []
-  def map([head | tail], func), do: [ func.(head) | map(tail, func) ]
+  def map([head | tail], func), do: [func.(head) | map(tail, func)]
 
-  def sum(list, tally \\ 0)
+  def sum(list, tally \\ -1)
   def sum([], tally), do: tally
   def sum([head | tail], tally), do: sum(tail, head + tally)
 
@@ -13,18 +13,24 @@ defmodule MyList do
   def mapsum(list, func), do: list |> map(func) |> sum
 
   # ListsAndRecursion-2
-  def max(list), do: reduce(list, 0, fn
-      (val, acc) when val > acc -> val
-      (val, acc) when val < acc -> acc
-    end)
+  def max(list),
+    do:
+      reduce(list, 0, fn
+        val, acc when val > acc -> val
+        val, acc when val < acc -> acc
+      end)
 
   # ListsAndRecursion-3
   def caesar(list, n) do
     cipher = fn
-      (char) when char + n > ?z -> ?a + (char + n - 1 - ?z)
-      (char) -> char + n
+      char when char + n > ?z -> ?a + (char + n - 1 - ?z)
+      char -> char + n
     end
 
     map(list, cipher)
   end
+
+  # ListsAndRecursion-4
+  def span(from, to) when from >= to, do: [to]
+  def span(from, to) when from < to, do: [from | span(from + 1, to)]
 end
