@@ -18,14 +18,14 @@ defmodule Issues.TableFormatter do
 
   def get_longest_column(data, column) do
     data
-    |> Enum.map(fn e -> e[column] end)
+    |> Enum.map(fn e -> printable(e[column]) end)
     |> Enum.map(&String.length/1)
     |> Enum.max()
   end
 
   def print_headers(columns, column_widths) do
     columns
-    |> Enum.map(&String.pad_trailing(&1, column_widths[&1]))
+    |> Enum.map(&String.pad_trailing(printable(&1), column_widths[&1]))
     |> Enum.reduce("", fn column, acc -> acc <> " | " <> column end)
   end
 
@@ -38,8 +38,11 @@ defmodule Issues.TableFormatter do
 
   def print_row(row, column_widths, columns) do
     Enum.reduce(columns, "", fn column, acc ->
-      padded_string = String.pad_trailing(row[column], column_widths[column])
+      padded_string = String.pad_trailing(printable(row[column]), column_widths[column])
       acc <> " | " <> padded_string
     end)
   end
+
+  def printable(str) when is_binary(str), do: str
+  def printable(str), do: to_string(str)
 end
